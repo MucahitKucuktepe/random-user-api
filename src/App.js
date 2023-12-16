@@ -49,7 +49,7 @@ function App() {
     email,
     dob:{age},
     phone,
-    login,
+    login:{password},
     picture: { medium },
   } = user;
 
@@ -77,6 +77,16 @@ function App() {
      setItem("Location");
      setInfo(city);
      setSign(false);
+  }
+  const handlePhone=()=>{
+       setItem("Location");
+       setInfo(phone);
+       setSign(false);
+  }
+  const handlePassWord=()=>{
+      setItem("Location");
+      setInfo(password);
+      setSign(false);
   }
   return (
     <main>
@@ -133,10 +143,10 @@ function App() {
             <button className="icon" data-label="street" type="button" onClick={handleLocation}>
               <img src={mapSvg} alt="map" id="iconImg" />
             </button>
-            <button className="icon" data-label="phone">
+            <button className="icon" data-label="phone" type="button" onClick={handlePhone} >
               <img src={phoneSvg} alt="phone" id="iconImg" />
             </button>
-            <button className="icon" data-label="password">
+            <button className="icon" data-label="password" type="button" onClick={handlePassWord}>
               <img src={padlockSvg} alt="lock" id="iconImg" />
             </button>
           </div>
