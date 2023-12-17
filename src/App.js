@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { createElement, useEffect } from "react";
 import mailSvg from "./assets/mail.svg";
 import manSvg from "./assets/man.svg";
 import womanSvg from "./assets/woman.svg";
@@ -7,7 +7,7 @@ import womanAgeSvg from "./assets/growing-up-woman.svg";
 import mapSvg from "./assets/map.svg";
 import phoneSvg from "./assets/phone.svg";
 import padlockSvg from "./assets/padlock.svg";
-import cwSvg from "./assets/cw.svg";
+import cwSvg from "./assets/ship.webp";
 import Footer from "./components/footer/Footer";
 import axios from "axios";
 import { useState } from "react";
@@ -26,36 +26,43 @@ function App() {
     picture: "",
   });
 
-  const [img, setImg] = useState(true);
   const [item, setItem] = useState("name");
   const [info, setInfo] = useState("");
   const [sign, setSign] = useState(true);
+  const [firstName, setFirstName] = useState("");
+  const [mail, setMail] = useState("");
+  const [phonex, setPhonex] = useState("");
+  const [agex, setAgex] = useState("");
+  const [list, setList] = useState([]);
 
   const getUser = () => {
     const url = "https://randomuser.me/api/";
     const res = axios(url)
       .then((res) => setUser(res.data.results[0]))
       .catch((error) => console.log(console.error()));
+      setFirstName(name.first);
+      setPhonex(phone);
+      setMail(email);
+      setAgex(age);
+   
   };
 
   useEffect(() => {
     getUser();
+ 
   }, []);
 
   const {
     gender,
     name,
-    location:{city},
+    location: { city },
     email,
-    dob:{age},
+    dob: { age },
     phone,
-    login:{password},
+    login: { password },
     picture: { medium },
   } = user;
 
-  console.log(email);
-  console.log(gender);
-  console.log(user);
   const handleName = () => {
     setItem("name");
     setInfo(name);
@@ -67,31 +74,38 @@ function App() {
     setInfo(email);
     setSign(false);
   };
-  const handleAge=()=>{
-        setItem("Age");
-        setInfo(age);
-        setSign(false);
-  }
-  
-  const handleLocation=()=>{
-     setItem("Location");
-     setInfo(city);
-     setSign(false);
-  }
-  const handlePhone=()=>{
-       setItem("Location");
-       setInfo(phone);
-       setSign(false);
-  }
-  const handlePassWord=()=>{
-      setItem("Location");
-      setInfo(password);
-      setSign(false);
-  }
+  const handleAge = () => {
+    setItem("Age");
+    setInfo(age);
+    setSign(false);
+  };
+
+  const handleLocation = () => {
+    setItem("Location");
+    setInfo(city);
+    setSign(false);
+  };
+  const handlePhone = () => {
+    setItem("Location");
+    setInfo(phone);
+    setSign(false);
+  };
+  const handlePassWord = () => {
+    setItem("Location");
+    setInfo(password);
+    setSign(false);
+  };
+
+  const handleAddUser = () => {
+    const newList = [firstName, phonex, mail, agex];
+
+    setList([...list, newList]);
+  };
+
   return (
     <main>
       <div className="block bcg-orange">
-        <img src={cwSvg} alt="cw" id="cw" />
+        <img src={cwSvg} alt="cw" id="cw"  />
       </div>
       <div className="block">
         <div className="container">
@@ -100,8 +114,7 @@ function App() {
           <p className="user-value">
             {sign ? (
               <span>
-                {name?.first} {" "}
-                {name?.last}
+                {name?.first} {name?.last}
               </span>
             ) : (
               <span>{info}</span>
@@ -140,13 +153,28 @@ function App() {
                 <img src={manAgeSvg} alt="user" id="iconImg" />
               )}
             </button>
-            <button className="icon" data-label="street" type="button" onClick={handleLocation}>
+            <button
+              className="icon"
+              data-label="street"
+              type="button"
+              onClick={handleLocation}
+            >
               <img src={mapSvg} alt="map" id="iconImg" />
             </button>
-            <button className="icon" data-label="phone" type="button" onClick={handlePhone} >
+            <button
+              className="icon"
+              data-label="phone"
+              type="button"
+              onClick={handlePhone}
+            >
               <img src={phoneSvg} alt="phone" id="iconImg" />
             </button>
-            <button className="icon" data-label="password" type="button" onClick={handlePassWord}>
+            <button
+              className="icon"
+              data-label="password"
+              type="button"
+              onClick={handlePassWord}
+            >
               <img src={padlockSvg} alt="lock" id="iconImg" />
             </button>
           </div>
@@ -154,7 +182,7 @@ function App() {
             <button className="btn" type="button" onClick={getUser}>
               new user
             </button>
-            <button className="btn" type="button">
+            <button className="btn" type="button" onClick={handleAddUser}>
               add user
             </button>
           </div>
@@ -169,7 +197,11 @@ function App() {
               </tr>
             </thead>
             <tbody>
-              <tr className="body-tr"></tr>
+              {list.map((item) => (
+                <tr key={item} className="body-tr">{item.map(td=>(
+                  <td key={td}> {td} </td>
+                ))}</tr>
+              ))}
             </tbody>
           </table>
         </div>

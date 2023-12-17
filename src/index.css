@@ -192,8 +192,9 @@ p {
 }
 
 #cw {
-  width: 75px;
+  width: 400px;
   margin-top: 50px;
+  border-radius: 5%;
 }
 
 .btn-group {
