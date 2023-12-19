@@ -11,8 +11,9 @@ import cwSvg from "./assets/ship.webp";
 import Footer from "./components/footer/Footer";
 import axios from "axios";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
-const defaultImage = "https://randomuser.me/api/portraits/men/75.jpg";
+// const defaultImage = "https://randomuser.me/api/portraits/men/75.jpg";
 
 function App() {
   const [user, setUser] = useState({
@@ -40,16 +41,17 @@ function App() {
     const res = axios(url)
       .then((res) => setUser(res.data.results[0]))
       .catch((error) => console.log(console.error()));
-      setFirstName(name.first);
-      setPhonex(phone);
-      setMail(email);
-      setAgex(age);
+    setFirstName(name.first);
+    setPhonex(phone);
+    setMail(email);
+    setAgex(age);
    
+    
   };
-
+console.log(user);
   useEffect(() => {
     getUser();
- 
+
   }, []);
 
   const {
@@ -105,7 +107,7 @@ function App() {
   return (
     <main>
       <div className="block bcg-orange">
-        <img src={cwSvg} alt="cw" id="cw"  />
+        <img src={cwSvg} alt="cw" id="cw" />
       </div>
       <div className="block">
         <div className="container">
@@ -198,9 +200,11 @@ function App() {
             </thead>
             <tbody>
               {list.map((item) => (
-                <tr key={item} className="body-tr">{item.map(td=>(
-                  <td key={td}> {td} </td>
-                ))}</tr>
+                <tr key={uuidv4()} className="body-tr">
+                  {item.map((td) => (
+                    <td key={uuidv4()}> {td} </td>
+                  ))}
+                </tr>
               ))}
             </tbody>
           </table>
